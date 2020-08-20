@@ -1,6 +1,5 @@
 package mybatis.tester;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -9,7 +8,6 @@ import com.demo.DemoApplication;
 import com.demo.test.bean.User;
 import com.demo.test.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.session.RowBounds;
 import org.assertj.core.util.Lists;
 import org.assertj.core.util.Maps;
 import org.junit.Test;
@@ -18,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.sql.SQLOutput;
 import java.util.List;
 import java.util.Map;
 
