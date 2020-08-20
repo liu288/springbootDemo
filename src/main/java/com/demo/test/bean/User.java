@@ -4,11 +4,13 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.Date;
 
 @Data
 @TableName(value = "mp_user") // 直接指定数据库表名
+@ToString
 //@Api(value = "用户表Api文档")
 public class User {
 
