@@ -2,7 +2,9 @@ package mybatis.tester;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.demo.DemoApplication;
 import com.demo.test.bean.User;
 import com.demo.test.service.UserService;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -205,6 +208,188 @@ public class ServiceTester {
         // 默认批量1000
         boolean b = userService.updateBatchById(list);
         System.out.println(b);
+    }
+
+    @Test
+    public void getById() {
+        User user = userService.getById(9);
+        System.out.println(user);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void getOne1() {
+        QueryWrapper queryWrapper = Wrappers.query();
+        queryWrapper.eq("user_name", "liuxiao");
+        queryWrapper.last("limit 1");
+        // 多个抛出异常
+        User one = userService.getOne(queryWrapper);
+        System.out.println(one);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void getOne2() {
+        QueryWrapper queryWrapper = Wrappers.query();
+        queryWrapper.eq("user_name", "liuxiao");
+        // 多个不抛出异常，返回第一条数据
+        User one = userService.getOne(queryWrapper, false);
+        System.out.println(one);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void getMap() {
+        QueryWrapper queryWrapper = Wrappers.query();
+        queryWrapper.eq("user_name", "liuxiao");
+        // 多个不抛出异常，以Map返回第一条数据，key为User.java对应属性
+        Map map = userService.getMap(queryWrapper);
+        System.out.println(map); // {name=liuxiao, id=1297900864085757954}
+    }
+
+    @SuppressWarnings({"unchecked", "RedundantCast"})
+    @Test
+    public void getObj() {
+        QueryWrapper queryWrapper = Wrappers.query();
+        queryWrapper.eq("user_name", "liuxiao");
+        queryWrapper.last("limit 1");
+        User obj = (User) userService.getObj(queryWrapper, (id) -> userService.getById((long)id));
+        System.out.println(obj);
+    }
+
+    @Test
+    public void list1() {
+        // 查询所有
+        List<User> list = userService.list();
+        System.out.println(list.size());
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void list2() {
+        QueryWrapper queryWrapper = Wrappers.query();
+        queryWrapper.eq("user_name", "liuxiao");
+        List<User> list = userService.list(queryWrapper);
+        System.out.println(list.size());
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void listByIds() {
+        List idList = Lists.newArrayList(9,10, 500, 10000);
+        List<User> list = (List<User>) userService.listByIds(idList);
+        System.out.println(list.size());
+    }
+
+    @Test
+    public void listByMap() {
+       Map<String, Object> map = Maps.newHashMap("user_name", "liuxiao");
+        Collection<User> users = userService.listByMap(map);
+        System.out.println(users);
+    }
+
+    @Test
+    public void listMaps1() {
+        List<Map<String, Object>> maps = userService.listMaps();
+        System.out.println(maps);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void listMaps2() {
+        QueryWrapper queryWrapper = Wrappers.query();
+        queryWrapper.eq("user_name", "liuxiao");
+        List<Map<String, Object>> maps = userService.listMaps(queryWrapper);
+        System.out.println(maps);
+    }
+
+    @Test
+    public void listObjs1() {
+        List<Object> objects = userService.listObjs();
+        System.out.println(objects); // 返回所有主键id
+    }
+
+    @Test
+    public void listObjs2() {
+        List<Object> objects = userService.listObjs((id) -> userService.getById((long)id));
+        System.out.println(objects); // 返回所有记录
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void listObjs3() {
+        QueryWrapper queryWrapper = Wrappers.query();
+        queryWrapper.eq("user_name", "liuxiao");
+        List<Object> objects = userService.listObjs(queryWrapper);
+        System.out.println(objects); // 返回符合条件下所有主键id
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void listObjs4() {
+        QueryWrapper queryWrapper = Wrappers.query();
+        queryWrapper.eq("user_name", "liuxiao");
+        List<Object> objects = userService.listObjs(queryWrapper, (id) -> userService.getById((long)id));
+        System.out.println(objects); // 返回符合条件下所有记录
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void page1() {
+        // 查询第2页，每页10条记录
+        IPage iPage = new Page(2, 10);
+        // SELECT user_id AS id,create_time AS date,user_name AS name,email,age FROM mp_user LIMIT 10,10
+        IPage page = userService.page(iPage);
+        System.out.println(page.getRecords());
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void page2() {
+        QueryWrapper queryWrapper = Wrappers.query();
+        queryWrapper.eq("user_name", "liuxiao");
+        // 查询第2页，每页2条记录
+        IPage iPage = new Page(2, 2);
+        // SELECT user_id AS id,create_time AS date,user_name AS name,email,age FROM mp_user LIMIT 2,2
+        IPage page = userService.page(iPage, queryWrapper);
+        System.out.println(page.getRecords());
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void pageMaps1() {
+        // 查询第2页，每页10条记录
+        IPage iPage = new Page(2, 10);
+        // SELECT user_id AS id,create_time AS date,user_name AS name,email,age FROM mp_user LIMIT 10,10
+        IPage page = userService.pageMaps(iPage);
+        System.out.println(page.getRecords());  // 返回Map,其它与page(IPage<T> page)相似
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void pageMaps2() {
+        QueryWrapper queryWrapper = Wrappers.query();
+        queryWrapper.eq("user_name", "liuxiao");
+        // 查询第2页，每页10条记录
+        IPage iPage = new Page(2, 2);
+        // SELECT user_id AS id,create_time AS date,user_name AS name,email,age FROM mp_user LIMIT 2,2
+        IPage page = userService.pageMaps(iPage, queryWrapper);
+        System.out.println(page.getRecords());  // 返回Map,其它与page(IPage<T> page, Wrapper<T> queryWrapper)相似
+    }
+
+    @Test
+    public void count1() {
+        int count = userService.count();
+        System.out.println(count);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void count2() {
+        QueryWrapper queryWrapper = Wrappers.query();
+        queryWrapper.eq("user_name", "liuxiao");
+        int count = userService.count(queryWrapper);
+        System.out.println(count);
     }
 
 }
