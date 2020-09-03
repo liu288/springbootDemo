@@ -75,9 +75,17 @@
             <artifactId>junit</artifactId>
         </dependency>
 
+        <!-- google Java工具类 -->
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
+        </dependency>
+
+        <!-- Jedis -->
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>2.8.2</version>
         </dependency>
     </dependencies>
 
