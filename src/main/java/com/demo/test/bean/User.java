@@ -1,8 +1,6 @@
 package com.demo.test.bean;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 import lombok.ToString;
 
@@ -14,12 +12,15 @@ import java.util.Date;
 //@Api(value = "用户表Api文档")
 public class User {
 
+    /**
+     * 插入时，id如果是null则自动生成
+     */
     @TableId(value = "user_id")
 //    @NotNull(message = "用户ID必填！")
 //    @ApiModelProperty(value = "用户ID", required = true)
     private Long id;
 
-    @TableField("user_name")
+    @TableField(value = "user_name")
 //    @ApiModelProperty(value = "用户名")
     private String name;
 
@@ -29,7 +30,7 @@ public class User {
 //    @ApiModelProperty(value = "用户email")
     private String email;
 
-    @TableField("create_time")
+    @TableField(value = "create_time", fill = FieldFill.INSERT_UPDATE)
     private Date date;
 
     /**
@@ -41,5 +42,8 @@ public class User {
     @TableField(exist = false)
 //    @ApiModelProperty(value = "临时属性，不对应数据库字段")
     private String tempField;
+
+//    @TableLogic
+    private int deleted;
 
 }

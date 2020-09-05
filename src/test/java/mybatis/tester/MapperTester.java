@@ -32,9 +32,9 @@ public class MapperTester {
         User user = new User();
         user.setId(999L);
         user.setName("liuxiao_999");
-//        int res = userMapper.insert(user);
-//        log.info("" + res);
-        User user1 = userMapper.selectById(999);
+        int res = userMapper.insert(user);
+        log.info("" + res);
+        User user1 = userMapper.selectById(999L);
         log.info(user1.toString());
     }
 
@@ -82,21 +82,21 @@ public class MapperTester {
     @Test
     public void updateById() {
         User updateInfo = new User();
-        updateInfo.setId(8L);
+        updateInfo.setId(1302194929887940610L);
         updateInfo.setName("liu_8");
         userMapper.updateById(updateInfo);
     }
 
     @Test
     public void selectById() {
-        User user = userMapper.selectById(8L);
+        User user = userMapper.selectById(999L);
         System.out.println(user);
     }
 
     @Test
     public void selectOne() {
         QueryWrapper queryWrapper = Wrappers.query();
-        queryWrapper.eq(true, "user_id", 8L);
+        queryWrapper.eq(true, "user_id", 1999L);
         User user = userMapper.selectOne(queryWrapper);
         System.out.println(user);
     }
