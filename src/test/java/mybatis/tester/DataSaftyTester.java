@@ -12,7 +12,7 @@ public class DataSaftyTester {
         String randomKey = "71297cfc6a4b44b2";
 
         // 随机密钥加密
-        String result = AES.encrypt("Spring2020#$", randomKey);
+        String result = AES.encrypt("root", randomKey);
 
         System.out.println(result);
     }

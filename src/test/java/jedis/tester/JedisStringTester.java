@@ -10,6 +10,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
+import java.util.List;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = DemoApplication.class)
 public class JedisStringTester {
@@ -34,6 +36,12 @@ public class JedisStringTester {
     public void get() {
         String abc = jedis.get("abc");
         System.out.println(abc); // 123456
+    }
+
+    @Test
+    public void mget() {
+        List<String> strings = jedis.mget("q", "a");
+        System.out.println(strings);
     }
 
 }

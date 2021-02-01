@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * MyBtais-Plus配置
+ * MyBatis-Plus配置
  */
 @Configuration
 public class MyBatisPlusConfig {

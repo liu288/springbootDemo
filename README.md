@@ -1,11 +1,12 @@
 # springbootDemo
 SpringBoot例子
 
-springboot  
+springboot
+swagger
 mysql  
 mysql-plus  
 redis  
 java  
-guava,hutools  
+guava,hutool
 
 
